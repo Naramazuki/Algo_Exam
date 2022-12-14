@@ -163,6 +163,23 @@ class DynamicMatrix:
             # Init the prev_pos: previous position in the column
             self.matrix[i][0].prev_pos = [i-1, 0]
 
+    def initialize2(self): #Modifiier les scores pour l'initialisation de la matrice
+        """ Initialize the matrix, i.e. fill the first line and column """
+        # First cell is 0
+        self.matrix[0][0].score = 0
+        # First line
+        for i in range(1, len(self.seq_top) + 1):
+            # Init the value: its position time indel value
+            self.matrix[0][i].score = self.indel*i
+            # Init the prev_pos: previous position in the line
+            self.matrix[0][i].prev_pos = [0, i-1]
+        # First column
+        for i in range(1, len(self.seq_left) + 1):
+            # Init the value: its position time indel value
+            self.matrix[i][0].score = self.indel*i
+            # Init the prev_pos: previous position in the column
+            self.matrix[i][0].prev_pos = [i-1, 0]
+
     def compare(self, ntd_a, ntd_b):
         """ Compare to nucleotides and return:
             the match value if they are identical,
@@ -174,6 +191,52 @@ class DynamicMatrix:
             return self.match
         # else, the mismatch value is returned
         return self.mismatch
+
+    def fill_matrix2(self):
+        """ Fill-up the matrix """
+        # For each cell of the matrix
+        for i in range(1, len(self.seq_left) + 1):
+            for j in range(1, len(self.seq_top) + 1):
+                # The score from the top is its value plus the indel score
+                top_score = self.matrix[i-1][j].score + self.indel
+                # Position of top
+                top_prev_pos = [i-1, j]
+
+                # The score from the top-left is its value plus:
+                # the match value if the nucleotides are the same,
+                # the mismatch value otherwise
+                top_left_score = self.matrix[i-1][j-1].score + self.compare(self.seq_left[i-1], self.seq_top[j-1])
+                # Position of top-left
+                top_left_prev_pos = [i-1, j-1]
+
+                # The score from the left is its value plus the indel score
+                left_score = self.matrix[i][j-1].score + self.indel
+                # Position of top
+                left_prev_pos = [i, j-1]
+
+                # This cell is the max of the three values
+                # and the position of this value
+                current_cell_score = min(top_score, top_left_score, left_score)
+                # Update the current cell in the matrix
+                self.matrix[i][j].score = current_cell_score
+                # Update the previous position
+                # Is the diagonal the best score?
+                # (start with diagonal because match/mismatch are better than gaps)
+                if top_left_score == current_cell_score:
+                    # Update current cell prev_pos
+                    self.matrix[i][j].prev_pos = top_left_prev_pos
+                # Else, is the top the best score?
+                elif top_score == current_cell_score:
+                    # Update current cell prev_pos
+                    self.matrix[i][j].prev_pos = top_prev_pos
+                # Else, is the left the best score?
+                elif left_score == current_cell_score:
+                    # Update current cell prev_pos
+                    self.matrix[i][j].prev_pos = left_prev_pos
+                # This should never occurs
+                else:
+                    # Error message, in case of...
+                    print("There is a bug at position {}".format([i, j]))
 
     def fill_matrix(self):
         """ Fill-up the matrix """
