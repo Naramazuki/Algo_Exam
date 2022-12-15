@@ -361,7 +361,7 @@ class DynamicMatrix:
         # The previous position
         prev_pos = []
         # While the beginning of the matrix is not reach
-        while prev_pos != [0, 0]:
+        while self.matrix[current_pos[0]][current_pos[1]].score!=0:
             # Get the previous position
             prev_pos = self.matrix[current_pos[0]][current_pos[1]].prev_pos
             # If the previous x position is the same
