@@ -60,13 +60,13 @@ def mal_sequences(dictio):
 def main():
     len_k_mer=30
     fichier="reads.fasta"
-    REPO="C:\\Users\\mivip\\OneDrive\\Bureau\\Travail_cours\\2A\\algo2A\\projet\\"+fichier
+    #REPO="C:\\Users\\mivip\\OneDrive\\Bureau\\Travail_cours\\2A\\algo2A\\projet\\"+fichier
     """
     DATA=create_k_mer(REPO,len_k_mer)
     print(len(DATA[0]),len(DATA[1]))
     print(DATA[0][0],DATA[1][0])
     """
-    Dictio=create_k_mer_Dico(REPO,len_k_mer)
+    Dictio=create_k_mer_Dico(fichier,len_k_mer)
     print(len(Dictio.keys()),len(Dictio.values()))
     results=mal_sequences(Dictio)
     print(len(results))
