@@ -208,6 +208,31 @@ class DynamicMatrix:
         # else, the mismatch value is returned
         return self.mismatch
 
+    def compare3(self, ntd_a, ntd_b):
+        """ Compare to nucleotides and return:
+            the match value if they are identical,
+            mismatch otherwise
+        """
+        # If the two nucleotides are the same
+        if ntd_a == ntd_b:
+            # the match value is returned
+            return self.match
+        elif ntd_a == "A" and ntd_b == "T" or ntd_a == "T" and ntd_b == "A":
+            return -2
+        elif ntd_a == "A" and ntd_b == "G" or ntd_a == "G" and ntd_b == "A":
+            return -1
+        elif ntd_a == "A" and ntd_b == "C" or ntd_a == "C" and ntd_b == "A":
+            return -2
+        elif ntd_a == "T" and ntd_b == "C" or ntd_a == "C" and ntd_b == "T":
+            return -1
+
+        elif ntd_a == "T" and ntd_b == "G" or ntd_a == "G" and ntd_b == "T" :
+            return -2
+        elif ntd_a == "C" and ntd_b == "G" or ntd_a == "G" and ntd_b == "C":
+            return -2
+
+        return self.mismatch
+
     def fill_matrix2(self):
         """ Fill-up the matrix """
         # For each cell of the matrix
@@ -266,7 +291,7 @@ class DynamicMatrix:
                 # The score from the top-left is its value plus:
                 # the match value if the nucleotides are the same,
                 # the mismatch value otherwise
-                top_left_score = max(0,self.matrix[i-1][j-1].score + self.compare(self.seq_left[i-1], self.seq_top[j-1]))
+                top_left_score = max(0,self.matrix[i-1][j-1].score + self.compare3(self.seq_left[i-1], self.seq_top[j-1]))
                 # Position of top-left
                 top_left_prev_pos = [i-1, j-1]
 
@@ -452,8 +477,7 @@ class Cell:
 
 def main():
     """ The main of TP3"""
-    #Les fonction d'indice 2 servent pour la distance de levenshtein
-    #Les fonction d'indice 3 servent pour l'algo de smith-waterman
+    #distance de levenshtein
     mat = DynamicMatrix("ACGGCTAT", "ACTGTAG", 0, 1, 1)
     mat.initialize2()
     #mat.matrix[5][2].score = 42
@@ -465,7 +489,7 @@ def main():
     al_seq_top, al_seq_left, score = mat.global_alignment()
     nice_display(al_seq_top, al_seq_left, score)
     
-    
+    #l'algo de smith-waterman distance de kimura
     mat = DynamicMatrix("TTTACGGCTATTCCC", "ACTGTAG", 2, -1, -2)
     mat.initialize3()
     #mat.matrix[5][2].score = 42
