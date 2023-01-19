@@ -480,10 +480,8 @@ def main():
     #distance de levenshtein
     mat = DynamicMatrix("ACGGCTAT", "ACTGTAG", 0, 1, 1)
     mat.initialize2()
-    #mat.matrix[5][2].score = 42
-    #mat.matrix[5][2].prev_pos = [2, 4]
+
     print(mat)
-    #mat.matrix[2][4].score = (5)
     mat.fill_matrix2()
     print(mat)
     al_seq_top, al_seq_left, score = mat.global_alignment()
@@ -492,10 +490,7 @@ def main():
     #l'algo de smith-waterman distance de kimura
     mat = DynamicMatrix("TTTACGGCTATTCCC", "ACTGTAG", 2, -1, -2)
     mat.initialize3()
-    #mat.matrix[5][2].score = 42
-    #mat.matrix[5][2].prev_pos = [2, 4]
     print(mat)
-    #mat.matrix[2][4].score = (5)
     mat.fill_matrix3()
     print(mat)
     al_seq_top, al_seq_left, score = mat.global_alignment2()
