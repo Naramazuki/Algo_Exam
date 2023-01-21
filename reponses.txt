@@ -1,0 +1,19 @@
+EXAMEN D'ALGORITHMIQUE DES SEQUENCES :
+
+
+Global Alignement :
+
+Q1 : Distance de Levenshtein = 3
+
+Q2 : Distance de Kimura = 6
+
+
+
+Reads :
+
+Q3 : (cf reads.py et la fonction create_k_mer)
+
+Q4 : Les séquences mal séquencées sont : 
+{'61809', '15544', '101908', '68927', '122507', '33659', '86002', '42', '130461', '1337'}
+
+Q5 : NULL
